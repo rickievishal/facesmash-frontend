@@ -9,7 +9,7 @@ const page = () => {
 
     const getProfiles = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/leaderBoard");
+            const res = await axios.get("https://facemash-ze0r.onrender.com/leaderBoard");
 ;
             setProfileArray(res.data);
 

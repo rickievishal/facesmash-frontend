@@ -21,7 +21,7 @@ const page = () => {
       const formdata = new FormData()
       formdata.append("image",image)
         try{
-          const res =  await axios.post("http://localhost:3000/upload-profile",formdata,
+          const res =  await axios.post("https://facemash-ze0r.onrender.com/upload-profile",formdata,
             {
               headers: {
                 'Content-Type': 'multipart/form-data'
@@ -43,7 +43,7 @@ const page = () => {
         profileId : uuid()
       }
       try {
-        const res = axios.post("http://localhost:3000/uploadProfile",payload,{headers:{"Content-Type" : "application/json"}})
+        const res = axios.post("https://facemash-ze0r.onrender.com/uploadProfile",payload,{headers:{"Content-Type" : "application/json"}})
         console.log("uploaded",(await res).data)
         setFileName("not selected")
         setProfileImage("")
@@ -71,7 +71,7 @@ const page = () => {
 
   const getProfiles = async()=>{
     try {
-      const res = axios.get("http://localhost:3000/getProfiles")
+      const res = axios.get("https://facemash-ze0r.onrender.com/getProfiles")
       setProfileArray((await res).data)
       console.log((await res).data)
     }catch(err){
@@ -98,7 +98,7 @@ const page = () => {
       }
     ];
     
-    const res = await axios.post("http://localhost:3000/updateProfiles", payload);
+    const res = await axios.post("https://facemash-ze0r.onrender.com/updateProfiles", payload);
     console.log("Profiles updated:", res.data);
     getProfiles()
   } catch (err) {
@@ -125,7 +125,7 @@ const handleSecondProfileWin = async () => {
       }
     ];
 
-    const res = await axios.post("http://localhost:3000/updateProfiles", payload);
+    const res = await axios.post("https://facemash-ze0r.onrender.com/updateProfiles", payload);
     console.log("Profiles updated:", res.data);
     getProfiles()
   } catch (err) {
