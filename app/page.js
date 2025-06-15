@@ -81,52 +81,54 @@ const page = () => {
 
  const handleFirstProfileWin = async () => {
   try {
-    const { newfirstProfileElo, newSecondProfileElo } = updateElo(profileArray[0].eloRating, profileArray[1].eloRating);
+    const { winnerNew, loserNew } = updateElo(profileArray[0].eloRating, profileArray[1].eloRating);
 
     const payload = [
       {
         _id: profileArray[0]._id,
         profileId: profileArray[0].profileId,
         profileImageUri: profileArray[0].profileImageUri,
-        eloRating: newfirstProfileElo
+        eloRating: winnerNew
       },
       {
         _id: profileArray[1]._id,
         profileId: profileArray[1].profileId,
         profileImageUri: profileArray[1].profileImageUri,
-        eloRating: newSecondProfileElo
+        eloRating: loserNew
       }
     ];
     
     const res = await axios.post("https://facemash-ze0r.onrender.com/updateProfiles", payload);
     console.log("Profiles updated:", res.data);
+    setProfileArray([])
     getProfiles()
   } catch (err) {
     console.error("Error updating Elo ratings:", err);
   }
-
+  
 };
 const handleSecondProfileWin = async () => {
   try {
-    const { newfirstProfileElo, newSecondProfileElo } = updateElo(profileArray[1].eloRating, profileArray[0].eloRating);
+    const { winnerNew, loserNew } = updateElo(profileArray[1].eloRating, profileArray[0].eloRating);
 
     const payload = [
       {
         _id: profileArray[0]._id,
         profileId: profileArray[0].profileId,
         profileImageUri: profileArray[0].profileImageUri,
-        eloRating: newfirstProfileElo
+        eloRating: loserNew
       },
       {
         _id: profileArray[1]._id,
         profileId: profileArray[1].profileId,
         profileImageUri: profileArray[1].profileImageUri,
-        eloRating: newSecondProfileElo
+        eloRating: winnerNew
       }
     ];
 
     const res = await axios.post("https://facemash-ze0r.onrender.com/updateProfiles", payload);
     console.log("Profiles updated:", res.data);
+    setProfileArray([])
     getProfiles()
   } catch (err) {
     console.error("Error updating Elo ratings:", err);
@@ -171,17 +173,23 @@ const handleSecondProfileWin = async () => {
             upload
           </button>
         </div>
-        <div className='flex items-center gap-1 py-4'>
+        <div className='grid grid-cols-2 items-center gap-1 py-4 px-2 '>
               {
-                profileArray.length && (
+                profileArray.length  ? (
                   <>
-                  <div className='w-[180px] h-[300px] bg-black' onClick={handleFirstProfileWin}>
-                      <img src={profileArray[0].profileImageUri} className='h-full w-full object-fit-cover'/>
+                  <div className='w-full h-[300px] col-span-1 bg-black overflow-hidden active:opacity-75' onClick={handleFirstProfileWin}>
+                      <img src={profileArray[0].profileImageUri} className='h-full w-full object-cover'/>
                   </div>
-                  <div className='w-[180px] h-[300px] bg-black' onClick={handleSecondProfileWin}>
-                      <img src={profileArray[1].profileImageUri} className='h-full w-full object-fit-cover'/>
+                  <div className='w-full h-[300px] col-span-1 bg-black overflow-hidden active:opacity-75' onClick={handleSecondProfileWin}>
+                      <img src={profileArray[1].profileImageUri} className='h-full w-full object-cover'/>
                   </div>
               </>
+                ) : (
+                  <div className='h-[300px] col-span-2 flex flex-col justify-center items-center  gap-2'>
+                    <p>Loading Profiles</p>
+                    <div className='w-[50px] h-[50px] bg-transparent border-t-[1px] border-red-600 rounded-full animate-spin'>
+                    </div>
+                  </div>
                 )
               }
         </div>
